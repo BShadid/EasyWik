@@ -105,7 +105,7 @@ def run_main(query=""):
 				sentences.append(edited_words)
 
 			for j in sentences:
-				ANSWER += " ".join(j)
+				ANSWER += " ".join(j) + ". "
 #					print " ".join(k)
 			del sentences[:]
 			ANSWER += "\n\n"
