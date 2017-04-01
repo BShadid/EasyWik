@@ -11,8 +11,11 @@ with open("top2000words.txt",'r') as f:
   for word in f.read().split("\n"):
     commonwords.append(word)
 
-def is_common(word):
+def exclude(word, links):
   if word in commonwords:
-    return True
-  else:
     return False
+  else:
+    if word in links:
+      return False
+    else:
+      return True
