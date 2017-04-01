@@ -3,7 +3,6 @@
 # This file is the main driver file and the one that interacts with the wikipedia API endpoints.
 # CHANGE 1: This will now be treated as a library
 
-from contextlib import contextmanager
 from commonwords import exclude
 import wikipedia
 import re
@@ -13,6 +12,7 @@ import string
 import sys
 import os
 import string
+import nltk
 
 #GLOBALS
 
@@ -26,8 +26,8 @@ def usage(status=0):
 	'''.format(os.path.basename(sys.argv[0]))
 	sys.exit(status)
 
-def run_main():
-	while (True):	
+def run_main(query=""):
+	while (True):
 		
 		if len(QUERY) == 0:
 			query = raw_input("What would you like explained?  ")
@@ -50,12 +50,13 @@ def run_main():
 	for i in query.split(" "):
 		links_master.append(i)
 	s = response.content
+	#print (s.encode('ascii', 'ignore')).lower()
 	section_names = [i.strip() for i in re.findall("==([^=]+)==", s.encode('ascii','ignore'))]
 	sections_content = []
 
 	sections_content.append(("Summary", str(unicodedata.normalize("NFKD",wikipedia.summary(query)).encode('ascii','ignore')).split(". ")))
 	for i in section_names:
-		temp = response.section(i)
+		temp = response.section(i)	
 		try:
 			sections_content.append((i, (str(temp.encode('ascii','ignore')).split(". "))))
 		except AttributeError:
@@ -71,28 +72,39 @@ def run_main():
 			print " "
 			for sentence in i[1]:
 				sentence.replace('\n', " ")
-				word_list = sentence.strip().split(" ")
+				word_list = sentence.replace("\n"," ").split(" ")
 
 				if (set(word_list) & set(links_master)): # Checks for any common element as hash table representations, search is O(1)
-					current_words = sentence.strip().split(" ")
+					current_words = sentence.strip().replace('\n',' ').split(" ")
 				else:
 					continue # if it doesn't have a common word with the links set, don't include it in the sentence list
 
+				edited_words = []
+
+				parenths = False
 				for k in range(len(current_words)):
-					current_words[k].translate(None, string.punctuation)
-					if exclude(current_words[k], links_master):
-						current_words[k] = '?'
+					if current_words[k].startswith("("):
+						parenths = True
+
+					elif current_words[k].endswith(")"):
+						parenths = False
+						continue
 						
+					if not (parenths):
+						current_words[k].translate(None, string.punctuation)
+						current_words[k]=exclude(current_words[k], links_master)
+						edited_words.append(current_words[k])
 
-				sentences.append(current_words)
-			
+
+				sentences.append(edited_words)
+
 			for j in sentences:
-				print j
-
+				print " ".join(j)
+#					print " ".join(k)
 			del sentences[:]
-				
-			print " "
 
+			print " "
+	print " "
 
 	
 
@@ -102,7 +114,7 @@ def run_main():
 	#sentence_list = [ i.encode('ascii','replace').strip() for i in data_list ]
 	#print sentence_list
 
-
+'''
 if __name__=="__main__":
 	args = sys.argv[1:]
 	while len(args) and args[0].startswith('-') and len(args[0])>1:
@@ -119,4 +131,5 @@ if __name__=="__main__":
 			usage (1)
 
 	run_main()
-
+'''
+run_main()

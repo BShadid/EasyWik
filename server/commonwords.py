@@ -5,6 +5,8 @@
 #	  http://www.talkenglish.com/vocabulary/top-2000-vocabulary.aspx
 
 import string
+from PyDictionary import PyDictionary
+import requests
 
 commonwords = []
 
@@ -13,10 +15,20 @@ with open("top2000words.txt",'r') as f:
     commonwords.append(word)
 
 def exclude(word, links):
-  if word in commonwords or len(word) < 5 or word[0].isupper():
-    return False
-  else:
-    if word in links:
-      return False
-    else:
-      return True
+	#dictionary=PyDictionary(word)
+	tempword = word.translate(None, string.punctuation)
+	if set(tempword) & set(commonwords) or len(tempword) <= 5 or tempword[0].isupper():
+		return word
+	else:
+		if set(word) & set(links):
+			return word
+		else:
+			try:
+				output = str(((requests.get("http://pydictionary-geekpradd.rhcloud.com/api/synonym/{}".format(tempword))).json())[0])
+				if word.endswith("'s"):
+					output += "'s"
+				elif word.endswith("s'"):
+					output += "s'"
+				return output
+			except KeyError:
+				return word
