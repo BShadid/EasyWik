@@ -108,6 +108,7 @@ def run_main(query=""):
 				ANSWER += " ".join(j)
 #					print " ".join(k)
 			del sentences[:]
+			ANSWER += "\n\n"
 
 #			print " "
 	return ANSWER
