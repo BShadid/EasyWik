@@ -16,11 +16,15 @@ with open("top2000words.txt",'r') as f:
 
 def exclude(word, links):
 	#dictionary=PyDictionary(word)
-	tempword = word.translate(None, string.punctuation)
-	if set(tempword) & set(commonwords) or len(tempword) <= 5 or tempword[0].isupper():
+	tempword = [word.translate(None, string.punctuation)]
+	#tempset.update(tempword)
+	if set(tempword) & set(commonwords) or len(tempword) <= 4 or tempword[0].isupper():
+		#print set(tempword)
+		#print set(commonwords)
+		#raw_input(" ")
 		return word
 	else:
-		if set(word) & set(links):
+		if tempset & set(links):
 			return word
 		else:
 			try:
