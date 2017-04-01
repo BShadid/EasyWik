@@ -1,0 +1,11 @@
+{
+	"manifest_version": 2,
+	"name": "easyWik",
+	"version": "0.1",
+	"background": {
+		"scripts": ["request_server.js"]
+	},
+	"browser_action": {
+		"default_icon": "easyWik.png"
+	}
+}
