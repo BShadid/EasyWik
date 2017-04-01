@@ -110,7 +110,7 @@ def run_main(query=""):
 			del sentences[:]
 
 #			print " "
-#	print " "
+	return ANSWER
 
 	
 
