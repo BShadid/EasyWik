@@ -7,5 +7,10 @@
 	},
 	"browser_action": {
 		"default_icon": "easyWik.png"
-	}
+	},
+	"permissions": [
+		"tabs",
+		"notifications",
+		"https://en.wikipedia.org/wiki/*"
+	]
 }
