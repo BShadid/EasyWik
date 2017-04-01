@@ -16,8 +16,6 @@ import nltk
 
 #GLOBALS
 
-QUERY = ""
-
 def usage(status=0):
 	print '''
 	How to use: {} -q search
@@ -29,10 +27,10 @@ def usage(status=0):
 def run_main(query=""):
 	while (True):
 		
-		if len(QUERY) == 0:
-			query = raw_input("What would you like explained?  ")
-		else:
-			query = QUERY
+		#if len(QUERY) == 0:
+		#	query = raw_input("What would you like explained?  ")
+		#else:
+		#	query = QUERY
 		try:
 			response = wikipedia.WikipediaPage(query)
 			break
@@ -46,9 +44,16 @@ def run_main(query=""):
 			dummy = wikipedia.WikipediaPage(query) #Automatically breaks the script, no way to capture stderr
 
 
-	links_master = [ str(i.encode('ascii','ignore')).lower() for i in response.links ]
+	#links_master = [ str(i.encode('ascii','ignore')).lower().split() for i in response.links ]
+	#Build the list of links, these are used as 'important keywords' for now
+	links_master = []
+	for i in response.links:
+		x = str(i.encode('ascii','ignore')).lower().split()
+		for j in x:
+			links_master.append(j.translate(None, string.punctuation))
 	for i in query.split(" "):
 		links_master.append(i)
+
 	s = response.content
 	#print (s.encode('ascii', 'ignore')).lower()
 	section_names = [i.strip() for i in re.findall("==([^=]+)==", s.encode('ascii','ignore'))]
@@ -132,4 +137,3 @@ if __name__=="__main__":
 
 	run_main()
 '''
-run_main()
