@@ -4,6 +4,7 @@
 # uses list of 2000 most common words from
 #	  http://www.talkenglish.com/vocabulary/top-2000-vocabulary.aspx
 
+import string
 
 commonwords = []
 
@@ -12,7 +13,7 @@ with open("top2000words.txt",'r') as f:
     commonwords.append(word)
 
 def exclude(word, links):
-  if word in commonwords:
+  if word in commonwords or len(word) < 5 or word[0].isupper():
     return False
   else:
     if word in links:

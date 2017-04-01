@@ -1,6 +1,7 @@
 #!/usr/bin/env python2.7
 
 # This file is the main driver file and the one that interacts with the wikipedia API endpoints.
+# CHANGE 1: This will now be treated as a library
 
 from contextlib import contextmanager
 from commonwords import exclude
@@ -25,7 +26,7 @@ def usage(status=0):
 	'''.format(os.path.basename(sys.argv[0]))
 	sys.exit(status)
 
-def run():
+def run_main():
 	while (True):	
 		
 		if len(QUERY) == 0:
@@ -45,7 +46,9 @@ def run():
 			dummy = wikipedia.WikipediaPage(query) #Automatically breaks the script, no way to capture stderr
 
 
-	links_master = [ str(i.encode('ascii','ignore')) for i in response.links ]
+	links_master = [ str(i.encode('ascii','ignore')).lower() for i in response.links ]
+	for i in query.split(" "):
+		links_master.append(i)
 	s = response.content
 	section_names = [i.strip() for i in re.findall("==([^=]+)==", s.encode('ascii','ignore'))]
 	sections_content = []
@@ -76,7 +79,8 @@ def run():
 					continue # if it doesn't have a common word with the links set, don't include it in the sentence list
 
 				for k in range(len(current_words)):
-					if exclude(current_words[k].lower(), links_master):
+					current_words[k].translate(None, string.punctuation)
+					if exclude(current_words[k], links_master):
 						current_words[k] = '?'
 						
 
@@ -90,16 +94,14 @@ def run():
 			print " "
 
 
-	#s.encode('ascii','ignore')
-
-	#print s
-	#print " "
+	
 
 	#q_resp = wikipedia.summary(query)
 	#unicodedata.normalize("NFKD",q_resp).encode('ascii','ignore')
 	#data_list = q_resp.split(".")
 	#sentence_list = [ i.encode('ascii','replace').strip() for i in data_list ]
 	#print sentence_list
+
 
 if __name__=="__main__":
 	args = sys.argv[1:]
@@ -116,5 +118,5 @@ if __name__=="__main__":
 		if not args[0].startswith('-'):
 			usage (1)
 
-	run()
+	run_main()
 
