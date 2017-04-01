@@ -3,7 +3,7 @@
 	"name": "easyWik",
 	"version": "0.1",
 	"background": {
-		"scripts": ["request_server.js"]
+		"scripts": ["handle_click.js"]
 	},
 	"browser_action": {
 		"default_icon": "easyWik.png"
@@ -11,6 +11,7 @@
 	"permissions": [
 		"tabs",
 		"notifications",
-		"https://en.wikipedia.org/wiki/*"
+		"https://en.wikipedia.org/wiki/*",
+		"http://0.0.0.0:5000/*"
 	]
 }

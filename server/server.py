@@ -1,12 +1,14 @@
 from flask import Flask
+import easyWik
 
-easyWik = Flask(__name__)
+app = Flask(__name__)
 
-@easyWik.route('/')
+@app.route('/')
 def usage():
     return "something went wrong."
 
-@easyWik.route('/<title>')
+@app.route('/<title>')
 def simplify(title):
     # do some magic
-    return title
+    return easyWik.run_main(title)
+    # return title
