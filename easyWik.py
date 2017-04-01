@@ -13,27 +13,31 @@ import sys
 import os
 import string
 
-# print wikipedia.summary("Treap")
-'''
-@contextmanager
-def suppress_error():
-	with open("trash.log", "w") as devnull:
-		orig_stderr = sys.stderr
-		sys.stderr = devnull
-		try:
-			devnull.write( #ERROR
-		finally:
-			sys.stderr = orig_stderror'''
+#GLOBALS
 
+QUERY = ""
 
-def prep():
+def usage(status=0):
+	print '''
+	How to use: {} -q search
+
+	-q		The thing you want to learn about
+	'''.format(os.path.basename(sys.argv[0]))
+	sys.exit(status)
+
+def run():
 	while (True):	
-		query = raw_input("What would you like to search?  ")
+		
+		if len(QUERY) == 0:
+			query = raw_input("What would you like explained?  ")
+		else:
+			query = QUERY
 		try:
 			response = wikipedia.WikipediaPage(query)
 			break
 		except wikipedia.exceptions.PageError:
 			print "That Wikipedia article does not exist, and no valid suggestions could be made."
+			return
 		except wikipedia.exceptions.DisambiguationError:
 			print "Multiple articles matched this name. Try to be more specific."
 			print "Here is a list of possibly related articles:"
@@ -50,19 +54,40 @@ def prep():
 	for i in section_names:
 		temp = response.section(i)
 		try:
-			sections_content.append((i, (str(temp.encode('ascii','ignore')).split("."))))
+			sections_content.append((i, (str(temp.encode('ascii','ignore')).split(". "))))
 		except AttributeError:
 			continue
 
 	for i in sections_content:
+		sentences = []
+		current_words = []
 		if i[0] == "See also":
 			break
-		print i[0] + ": "
-		print " "
-		for j in i[1]:
-			print j.strip()
+		if len(i[1][0]) > 0:
+			print i[0] + ": "
+			print " "
+			for sentence in i[1]:
+				sentence.replace('\n', " ")
+				word_list = sentence.strip().split(" ")
+
+				if (set(word_list) & set(links_master)): # Checks for any common element as hash table representations, search is O(1)
+					current_words = sentence.strip().split(" ")
+				else:
+					continue # if it doesn't have a common word with the links set, don't include it in the sentence list
+
+				for k in range(len(current_words)):
+					if exclude(current_words[k].lower(), links_master):
+						current_words[k] = '?'
+						
+
+				sentences.append(current_words)
 			
-		print " "
+			for j in sentences:
+				print j
+
+			del sentences[:]
+				
+			print " "
 
 
 	#s.encode('ascii','ignore')
@@ -77,5 +102,19 @@ def prep():
 	#print sentence_list
 
 if __name__=="__main__":
-	prep()
+	args = sys.argv[1:]
+	while len(args) and args[0].startswith('-') and len(args[0])>1:
+		arg = args.pop(0)
+		if arg == '-q':
+			QUERY = args.pop(0)
+		elif arg == '-h':
+			usage(0)
+		else:
+			usage(1)
+
+	if len(args) > 0:
+		if not args[0].startswith('-'):
+			usage (1)
+
+	run()
 
