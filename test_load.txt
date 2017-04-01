@@ -1,0 +1,9 @@
+kevin 12
+word 3
+another 8
+example 3
+pepper 4
+good 9
+eleven 11
+knott 9
+TOTDOCS 3
