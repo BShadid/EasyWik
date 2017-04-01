@@ -25,6 +25,7 @@ def usage(status=0):
 	sys.exit(status)
 
 def run_main(query=""):
+	ANSWER = ""
 	while (True):
 		
 		#if len(QUERY) == 0:
@@ -73,8 +74,8 @@ def run_main(query=""):
 		if i[0] == "See also":
 			break
 		if len(i[1][0]) > 0:
-			print i[0] + ": "
-			print " "
+			ANSWER += i[0] + ": "
+			ANSWER += " "
 			for sentence in i[1]:
 				sentence.replace('\n', " ")
 				word_list = sentence.replace("\n"," ").split(" ")
@@ -104,12 +105,12 @@ def run_main(query=""):
 				sentences.append(edited_words)
 
 			for j in sentences:
-				print " ".join(j)
+				ANSWER += " ".join(j)
 #					print " ".join(k)
 			del sentences[:]
 
-			print " "
-	print " "
+#			print " "
+#	print " "
 
 	
 
