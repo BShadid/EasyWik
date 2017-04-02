@@ -124,7 +124,7 @@ def run_main(query=""):
 	#data_list = q_resp.split(".")
 	#sentence_list = [ i.encode('ascii','replace').strip() for i in data_list ]
 	#print sentence_list
-
+'''
 if __name__=="__main__":
 	args = sys.argv[1:]
 	while len(args) and args[0].startswith('-') and len(args[0])>1:
@@ -141,4 +141,4 @@ if __name__=="__main__":
 			usage (1)
 
 	run_main()
-
+'''
