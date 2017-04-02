@@ -19,6 +19,8 @@ document = {
 "dorito":7,
 "sprite":2,
 }
-print document
-output = tfidf.tfidf(document, "test_load.txt")
-#print output
+#print document
+while (1):
+        doc = raw_input('enter title: ')
+        output = tfidf.tfidf(doc, "masterDic.txt")
+        print output
