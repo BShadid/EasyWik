@@ -124,7 +124,7 @@ def run_main(query=""):
 				#print ANSWER
 #					print " ".join(k)
 			del sentences[:]
-			ANSWER += "\n\n"
+			ANSWER += "<\p><p>"
 
 #			print " "
 #	print " ANSWER: "
