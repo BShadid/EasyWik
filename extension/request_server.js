@@ -1,11 +1,11 @@
 var wikiUrl = window.location.href;
-var APIurl = wikiUrl.replace("https://en.wikipedia.org/wiki","http://0.0.0.0:5000").replace(/_/g,"%20");
+var APIurl = wikiUrl.replace("https://en.wikipedia.org/wiki","https://localhost:5000").replace(/_/g,"%20");
 
 var xhr = new XMLHttpRequest();
 
 var handleResponse = function (status, response) {
 	if(status == 200)
-		alert(response);
+		document.write(response);
 }
 
 xhr.onreadystatechange = function() {

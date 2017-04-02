@@ -12,6 +12,6 @@
 		"tabs",
 		"notifications",
 		"https://en.wikipedia.org/wiki/*",
-		"http://0.0.0.0:5000/*"
+		"https://localhost:5000/*"
 	]
 }
