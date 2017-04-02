@@ -4,6 +4,7 @@
 # CHANGE 1: This will now be treated as a library
 
 from commonwords import exclude
+import requests
 import wikipedia
 import re
 import json
@@ -25,7 +26,7 @@ def usage(status=0):
 	'''.format(os.path.basename(sys.argv[0]))
 	sys.exit(status)
 
-def run_main(query=""):
+def run_main(query, query2, KEY):
 	ANSWER = ""
 	while (True):
 		
@@ -78,8 +79,8 @@ def run_main(query=""):
 		if i[0] == "See also":
 			break
 		if len(i[1][0]) > 0:
-			ANSWER += i[0] + ": "
-			ANSWER += " "
+			#ANSWER += i[0] + ": "
+			#ANSWER += " "
 			for sentence in i[1]:
 				sentence.replace('\n', " ")
 				word_list = sentence.replace("\n"," ").split(" ")
@@ -112,13 +113,21 @@ def run_main(query=""):
 				ANSWER += " ".join(j) + ". "
 #					print " ".join(k)
 			del sentences[:]
-			ANSWER += "\n\n"
+			
+			ANSWER += '\n\n'
 
-#			print " "
 	return ANSWER
 
+	'''
+	url = "http://api.summry.com/&SM_API_KEY={}&SM_LENGTH=5&SM_URL=http://en.wikipedia.org/wiki/{}".format(KEY, query2)
+	summary_verified = requests.post(url)
 	
-
+	summary_text = sv['sm_api_content']
+	summary_text.replace("Summary:", query)
+	
+	return summary_text
+	
+	'''
 	#q_resp = wikipedia.summary(query)
 	#unicodedata.normalize("NFKD",q_resp).encode('ascii','ignore')
 	#data_list = q_resp.split(".")
@@ -142,3 +151,4 @@ if __name__=="__main__":
 
 	run_main()
 '''
+
