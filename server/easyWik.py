@@ -4,7 +4,6 @@
 # CHANGE 1: This will now be treated as a library
 
 from commonwords import exclude
-import requests
 import wikipedia
 import re
 import json
@@ -26,7 +25,7 @@ def usage(status=0):
 	'''.format(os.path.basename(sys.argv[0]))
 	sys.exit(status)
 
-def run_main(query, query2, KEY):
+def run_main(query=""):
 	ANSWER = ""
 	while (True):
 		
@@ -63,8 +62,8 @@ def run_main(query, query2, KEY):
 	s = response.content
 	#print (s.encode('ascii', 'ignore')).lower()
 	section_names = [i.strip() for i in re.findall("==([^=]+)==", s.encode('ascii','ignore'))]
-	#sections_content = [ i.strip() for i in re.findall("([^=]+)[=]+", s.encode('ascii','ignore'))]
 	sections_content = []
+	#sections_content = [ i.strip() for i in re.findall("([^=]+)[=]+", s.encode('ascii','ignore'))]
 	sections_content.append(("Summary", str(unicodedata.normalize("NFKD",wikipedia.summary(query)).encode('ascii','ignore')).split(". ")))
 	#print sections_content[0:4]
 	for i in section_names:
@@ -74,10 +73,13 @@ def run_main(query, query2, KEY):
 		except AttributeError:
 			continue
 
+#	print sections_content
 
 	for i in sections_content:
 		sentences = []
 		current_words = []
+		if i[0] == "See also":
+			break
 		if len(i[1][0]) > 0:
 			ANSWER += i[0] + ": "
 			ANSWER += " "
@@ -113,21 +115,14 @@ def run_main(query, query2, KEY):
 				ANSWER += " ".join(j) + ". "
 #					print " ".join(k)
 			del sentences[:]
-			
-			ANSWER += '\n\n'
+			ANSWER += "\n\n"
 
+#			print " "
+	#print ANSWER
 	return ANSWER
 
-	'''
-	url = "http://api.summry.com/&SM_API_KEY={}&SM_LENGTH=5&SM_URL=http://en.wikipedia.org/wiki/{}".format(KEY, query2)
-	summary_verified = requests.post(url)
 	
-	summary_text = sv['sm_api_content']
-	summary_text.replace("Summary:", query)
-	
-	return summary_text
-	
-	'''
+
 	#q_resp = wikipedia.summary(query)
 	#unicodedata.normalize("NFKD",q_resp).encode('ascii','ignore')
 	#data_list = q_resp.split(".")
@@ -151,3 +146,5 @@ if __name__=="__main__":
 
 	run_main()
 '''
+
+run_main("Exam")
