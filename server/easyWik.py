@@ -119,7 +119,7 @@ def run_main(query, query2, KEY):
 	#urlify = re.sub(r"\s+", '_', query)
 	url = "http://api.summry.com/&SM_API_KEY={}&SM_LENGTH=5&SM_URL=ttps://en.wikipedia.org/wiki/{}".format(KEY, query2)
 	summary_verified = requests.post(url)
-	sv = json.loads(summary_verified)
+	sv = json.load(summary_verified)
 	summary_text = sv['sm_api_content']
 	summary_text.replace("Summary:", query)
 	
