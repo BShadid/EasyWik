@@ -31,9 +31,9 @@ def run_main(query, query2, KEY):
 	while (True):
 		
 		#if len(QUERY) == 0:
-		#	query = raw_input("What would you like explained?  ")
-		#else:
-		#	query = QUERY
+	#		query = raw_input("What would you like explained?  ")
+	#	else:
+	#		query = QUERY
 		try:
 			response = wikipedia.WikipediaPage(query)
 			break
@@ -151,4 +151,3 @@ if __name__=="__main__":
 
 	run_main()
 '''
-run_main("Exam", "Exam", 3)
