@@ -5,7 +5,7 @@ var xhr = new XMLHttpRequest();
 
 var handleResponse = function (status, response) {
 	if(status == 200)
-		document.write(response);
+		document.write(response.replace("\n","</p><p>"));
 }
 
 xhr.onreadystatechange = function() {

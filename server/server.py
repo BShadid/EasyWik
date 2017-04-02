@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def usage():
-    return "something went wrong."
+    return "you shouldn't be here."
 
 @app.route('/<title>')
 def simplify(title):
