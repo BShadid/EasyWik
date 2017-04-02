@@ -19,6 +19,6 @@ document = {
 "dorito":7,
 "sprite":2,
 }
-print document
-output = tfidf.tfidf(document, "test_load.txt")
-#print output
+#print document
+output = tfidf.tfidf("Nirvana (band)", "masterDic.txt")
+print output
