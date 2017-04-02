@@ -26,7 +26,7 @@ def usage(status=0):
 	'''.format(os.path.basename(sys.argv[0]))
 	sys.exit(status)
 
-def run_main(query="", KEY):
+def run_main(query="", query2, KEY):
 	'''ANSWER = ""
 	while (True):
 		
@@ -117,12 +117,13 @@ def run_main(query="", KEY):
 #			print " "
 	'''
 	#urlify = re.sub(r"\s+", '_', query)
-	url = "http://api.summry.com/&SM_API_KEY={}&SM_LENGTH=5&SM_URL=ttps://en.wikipedia.org/wiki/{}".format(KEY, query)}
-	summary_verified = requests.post(url)
-	sv = summary_verified.json()
-	summary_text = sv['sm_api_content']
-	summary_text.replace("Summary:", sv['sm_api_title'])
-	return summary_text
+	#url = "http://api.summry.com/&SM_API_KEY={}&SM_LENGTH=5&SM_URL=ttps://en.wikipedia.org/wiki/{}".format(KEY, query2)}
+	#summary_verified = requests.post(url)
+	#sv = summary_verified.json()
+	#summary_text = sv['sm_api_content']
+	#summary_text.replace("Summary:", query)
+	print query, query2
+	#return summary_text
 	
 
 	#q_resp = wikipedia.summary(query)
@@ -149,4 +150,3 @@ if __name__=="__main__":
 	run_main()
 '''
 
-run_main("XD LUL")
