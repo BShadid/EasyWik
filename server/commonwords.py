@@ -28,11 +28,11 @@ def exclude(word, links):
 			return word
 		else:
 			try:
-				output = str(((requests.get("http://pydictionary-geekpradd.rhcloud.com/api/synonym/{}".format(tempword))).json())[0])
-				if word.endswith("'s"):
-					output += "'s"
-				elif word.endswith("s'"):
-					output += "s'"
-				return output
+				#output = str(((requests.get("http://pydictionary-geekpradd.rhcloud.com/api/synonym/{}".format(tempword))).json())[0])
+				#if word.endswith("'s"):
+				#	output += "'s"
+				#elif word.endswith("s'"):
+				#	output += "s'"
+				return word
 			except KeyError:
 				return word

@@ -12,6 +12,7 @@ import string
 import sys
 import os
 import string
+import tfidf
 import nltk
 
 #GLOBALS
@@ -28,10 +29,10 @@ def run_main(query=""):
 	ANSWER = ""
 	while (True):
 		
-		#if len(QUERY) == 0:
-		#	query = raw_input("What would you like explained?  ")
-		#else:
-		#	query = QUERY
+		if len(QUERY) == 0:
+			query = raw_input("What would you like explained?  ")
+		else:
+			query = QUERY
 		try:
 			response = wikipedia.WikipediaPage(query)
 			break
@@ -47,20 +48,23 @@ def run_main(query=""):
 
 	#links_master = [ str(i.encode('ascii','ignore')).lower().split() for i in response.links ]
 	#Build the list of links, these are used as 'important keywords' for now
-	links_master = []
-	for i in response.links:
-		x = str(i.encode('ascii','ignore')).lower().split()
-		for j in x:
-			links_master.append(j.translate(None, string.punctuation))
-	for i in query.split(" "):
-		links_master.append(i)
+
+	
+
+	links_master = tfidf.tfidf(query, "masterDic.txt")
+#	for i in response.links:
+#		x = str(i.encode('ascii','ignore')).lower().split()
+#		for j in x:
+#			links_master.append(j.translate(None, string.punctuation))
+#	for i in query.split(" "):
+#		links_master.append(i)
 
 	s = response.content
 	#print (s.encode('ascii', 'ignore')).lower()
 	section_names = [i.strip() for i in re.findall("==([^=]+)==", s.encode('ascii','ignore'))]
-	sections_content = []
-
+	sections_content = [ i.strip() for i in re.findall("([^=]+)[=]+", s.encode('ascii','ignore'))]
 	sections_content.append(("Summary", str(unicodedata.normalize("NFKD",wikipedia.summary(query)).encode('ascii','ignore')).split(". ")))
+	#print sections_content[0:4]
 	for i in section_names:
 		temp = response.section(i)	
 		try:
@@ -92,7 +96,7 @@ def run_main(query=""):
 					if current_words[k].startswith("("):
 						parenths = True
 
-					elif current_words[k].endswith(")"):
+					elif ")" in current_words[k]:
 						parenths = False
 						continue
 						
@@ -121,7 +125,6 @@ def run_main(query=""):
 	#sentence_list = [ i.encode('ascii','replace').strip() for i in data_list ]
 	#print sentence_list
 
-'''
 if __name__=="__main__":
 	args = sys.argv[1:]
 	while len(args) and args[0].startswith('-') and len(args[0])>1:
@@ -138,4 +141,4 @@ if __name__=="__main__":
 			usage (1)
 
 	run_main()
-'''
+
