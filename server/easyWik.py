@@ -26,7 +26,7 @@ def usage(status=0):
 	'''.format(os.path.basename(sys.argv[0]))
 	sys.exit(status)
 
-def run_main(query="", query2, KEY):
+def run_main(query, query2, KEY):
 	'''ANSWER = ""
 	while (True):
 		
@@ -122,7 +122,7 @@ def run_main(query="", query2, KEY):
 	#sv = summary_verified.json()
 	#summary_text = sv['sm_api_content']
 	#summary_text.replace("Summary:", query)
-	print query, query2
+	return query + query2
 	#return summary_text
 	
 
