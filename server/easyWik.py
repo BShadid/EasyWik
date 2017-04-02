@@ -29,10 +29,10 @@ def run_main(query=""):
 	ANSWER = ""
 	while (True):
 		
-		if len(QUERY) == 0:
-			query = raw_input("What would you like explained?  ")
-		else:
-			query = QUERY
+		#if len(QUERY) == 0:
+		#	query = raw_input("What would you like explained?  ")
+		#else:
+		#	query = QUERY
 		try:
 			response = wikipedia.WikipediaPage(query)
 			break
