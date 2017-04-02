@@ -63,7 +63,8 @@ def run_main(query, query2, KEY):
 	s = response.content
 	#print (s.encode('ascii', 'ignore')).lower()
 	section_names = [i.strip() for i in re.findall("==([^=]+)==", s.encode('ascii','ignore'))]
-	sections_content = [ i.strip() for i in re.findall("([^=]+)[=]+", s.encode('ascii','ignore'))]
+	#sections_content = [ i.strip() for i in re.findall("([^=]+)[=]+", s.encode('ascii','ignore'))]
+	sections_content = []
 	sections_content.append(("Summary", str(unicodedata.normalize("NFKD",wikipedia.summary(query)).encode('ascii','ignore')).split(". ")))
 	#print sections_content[0:4]
 	for i in section_names:
@@ -73,14 +74,13 @@ def run_main(query, query2, KEY):
 		except AttributeError:
 			continue
 
+
 	for i in sections_content:
 		sentences = []
 		current_words = []
-		if i[0] == "See also":
-			break
 		if len(i[1][0]) > 0:
-			#ANSWER += i[0] + ": "
-			#ANSWER += " "
+			ANSWER += i[0] + ": "
+			ANSWER += " "
 			for sentence in i[1]:
 				sentence.replace('\n', " ")
 				word_list = sentence.replace("\n"," ").split(" ")
@@ -151,4 +151,4 @@ if __name__=="__main__":
 
 	run_main()
 '''
-
+run_main("Exam", "Exam", 3)
