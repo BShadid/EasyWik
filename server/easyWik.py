@@ -51,7 +51,7 @@ def run_main(query=""):
 	#Build the list of links, these are used as 'important keywords' for now
 
 	
-
+	#print query
 	links_master = tfidf.tfidf(query, "masterDic.txt")
 #	for i in response.links:
 #		x = str(i.encode('ascii','ignore')).lower().split()
@@ -60,12 +60,16 @@ def run_main(query=""):
 #	for i in query.split(" "):
 #		links_master.append(i)
 
+	links_master = map(str, links_master)
+	#print links_master
 	s = response.content
+	#print s
 	#print (s.encode('ascii', 'ignore')).lower()
 	section_names = [i.strip() for i in re.findall("==([^=]+)==", s.encode('ascii','ignore'))]
 	sections_content = []
 	#sections_content = [ i.strip() for i in re.findall("([^=]+)[=]+", s.encode('ascii','ignore'))]
 	sections_content.append(("Summary", str(unicodedata.normalize("NFKD",wikipedia.summary(query)).encode('ascii','ignore')).split(". ")))
+	#print  str(unicodedata.normalize("NFKD",wikipedia.summary(query)).encode('ascii','ignore'))
 	#print sections_content[0:4]
 	for i in section_names:
 		temp = response.section(i)	
@@ -79,7 +83,7 @@ def run_main(query=""):
 	for i in sections_content:
 		sentences = []
 		current_words = []
-		print i[0]
+		#print i[0]
 		if i[0] == "See also":
 			break
 		if len(i[1][0]) > 0:
@@ -87,7 +91,7 @@ def run_main(query=""):
 			ANSWER += " "
 			for sentence in i[1]:
 				sentence.replace('\n', " ")
-				word_list = sentence.replace("\n"," ").split(" ")
+				word_list = sentence.replace("\n"," ").lower().split(" ")
 
 				if (set(word_list) & set(links_master)): # Checks for any common element as hash table representations, search is O(1)
 					current_words = sentence.strip().replace('\n',' ').split(" ")
@@ -107,7 +111,7 @@ def run_main(query=""):
 						
 					if not (parenths):
 						current_words[k].translate(None, string.punctuation)
-						current_words[k]=exclude(current_words[k], links_master)
+						current_words[k]=exclude(current_words[k].lower(), links_master)
 						edited_words.append(current_words[k])
 
 
@@ -125,7 +129,7 @@ def run_main(query=""):
 #			print " "
 #	print " ANSWER: "
 #	print ANSWER
-	return ANSWER
+	return "Keywords:" + str(links_master) + '\n' + ANSWER
 
 	
 
