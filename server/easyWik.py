@@ -26,6 +26,7 @@ def usage(status=0):
 	sys.exit(status)
 
 def run_main(query=""):
+	# query.replace(" ", "_")
 	ANSWER = ""
 	while (True):
 		
@@ -78,6 +79,7 @@ def run_main(query=""):
 	for i in sections_content:
 		sentences = []
 		current_words = []
+		print i[0]
 		if i[0] == "See also":
 			break
 		if len(i[1][0]) > 0:
@@ -113,12 +115,16 @@ def run_main(query=""):
 
 			for j in sentences:
 				ANSWER += " ".join(j) + ". "
+				#print j
+				#print " ".join(j) + ". "
+				#print ANSWER
 #					print " ".join(k)
 			del sentences[:]
 			ANSWER += "\n\n"
 
 #			print " "
-	#print ANSWER
+#	print " ANSWER: "
+#	print ANSWER
 	return ANSWER
 
 	
@@ -147,4 +153,4 @@ if __name__=="__main__":
 	run_main()
 '''
 
-run_main("Exam")
+#print run_main("University of Notre Dame")
